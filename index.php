@@ -14,7 +14,7 @@ $result = $conn->query($sql);
 <body>
 
 <h1>Skolska kniznica</h1>
-
+<a href="create.php" class="btn">+ Pridat knihu</a>
 <table border="1" cellpadding="10">
 
 <tr>
