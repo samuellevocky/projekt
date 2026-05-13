@@ -23,6 +23,7 @@ $result = $conn->query($sql);
     <th>Autor</th>
     <th>Rok</th>
     <th>Status</th>
+    <th>Akcie</th>
 </tr>
 
 <?php while($row = $result->fetch_assoc()): ?>
@@ -39,6 +40,11 @@ $result = $conn->query($sql);
 
 <td>
 <?= $row['available'] ? "Volna" : "Pozicana" ?>
+</td>
+
+<td>
+    <a href="edit.php?id=<?= $row['id'] ?>">Upravit</a>
+    <a href="delete.php?id=<?= $row['id'] ?>">Vymazat</a>
 </td>
 
 </tr>
