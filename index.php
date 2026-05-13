@@ -14,6 +14,7 @@ $result = $conn->query($sql);
 <body>
 
 <h1>Skolska kniznica</h1>
+<a href="borrow.php" class="btn">Požičať knihu</a>
 <a href="create.php" class="btn">+ Pridat knihu</a>
 <table border="1" cellpadding="10">
 
@@ -25,6 +26,8 @@ $result = $conn->query($sql);
     <th>Status</th>
     <th>Akcie</th>
 </tr>
+
+
 
 <?php while($row = $result->fetch_assoc()): ?>
 
@@ -51,6 +54,38 @@ $result = $conn->query($sql);
 
 <?php endwhile; ?>
 
+</table>
+
+<h2>Požičané knihy</h2>
+
+<?php
+$sql = "SELECT loans.id, books.title, users.name, loans.loan_date
+        FROM loans
+        JOIN books ON loans.book_id = books.id
+        JOIN users ON loans.user_id = users.id
+        WHERE loans.return_date IS NULL";
+
+$result = mysqli_query($conn, $sql);
+?>
+
+<table border="1">
+<tr>
+    <th>Kniha</th>
+    <th>Používateľ</th>
+    <th>Dátum</th>
+    <th>Akcia</th>
+</tr>
+
+<?php while($l = mysqli_fetch_assoc($result)): ?>
+<tr>
+    <td><?= $l["title"] ?></td>
+    <td><?= $l["name"] ?></td>
+    <td><?= $l["loan_date"] ?></td>
+    <td>
+        <a href="return.php?loan_id=<?= $l['id'] ?>">Vrátiť</a>
+    </td>
+</tr>
+<?php endwhile; ?>
 </table>
 
 </body>
