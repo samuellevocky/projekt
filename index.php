@@ -9,11 +9,45 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="style.css">
     <title>Skolska kniznica</title>
 </head>
 <body>
 
 <h1>Skolska kniznica</h1>
+<div class="dashboard">
+
+    <div class="card">
+        <h3>Počet kníh</h3>
+        <p>
+            <?php
+            $countBooks = mysqli_query($conn, "SELECT COUNT(*) as total FROM books");
+            echo mysqli_fetch_assoc($countBooks)['total'];
+            ?>
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Požičané knihy</h3>
+        <p>
+            <?php
+            $countLoans = mysqli_query($conn, "SELECT COUNT(*) as total FROM loans WHERE return_date IS NULL");
+            echo mysqli_fetch_assoc($countLoans)['total'];
+            ?>
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Používatelia</h3>
+        <p>
+            <?php
+            $countUsers = mysqli_query($conn, "SELECT COUNT(*) as total FROM users");
+            echo mysqli_fetch_assoc($countUsers)['total'];
+            ?>
+        </p>
+    </div>
+
+</div>
 <a href="borrow.php" class="btn">Požičať knihu</a>
 <a href="create.php" class="btn">+ Pridat knihu</a>
 <table border="1" cellpadding="10">
