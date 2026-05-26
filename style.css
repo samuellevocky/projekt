@@ -9,6 +9,7 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     padding: 30px;
+    animation: fadeIn 0.4s ease-in;
 }
 
 /* HEADER */
@@ -65,11 +66,12 @@ h1, h2 {
     text-decoration: none;
     margin-right: 10px;
     margin-bottom: 20px;
-    transition: 0.3s;
+    transition: 0.2s ease;
 }
 
 .btn:hover {
     background: #0284c7;
+    transform: scale(1.05);
 }
 
 /* TABLE */
@@ -87,6 +89,9 @@ th {
     color: white;
     padding: 15px;
     text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 td {
@@ -94,8 +99,10 @@ td {
     border-bottom: 1px solid #334155;
 }
 
-tr:hover {
+/* hover (LIGHT) */
+table tr:hover {
     background: #334155;
+    transition: 0.2s ease;
 }
 
 /* FORM */
@@ -120,10 +127,12 @@ button {
     padding: 12px 18px;
     border-radius: 8px;
     cursor: pointer;
+    transition: 0.2s ease;
 }
 
 button:hover {
     background: #0284c7;
+    transform: scale(1.05);
 }
 
 /* LINKS */
@@ -136,6 +145,7 @@ a:hover {
     color: #7dd3fc;
 }
 
+/* DARK MODE */
 body.dark {
     background: #121212;
     color: #ffffff;
@@ -143,7 +153,18 @@ body.dark {
 
 body.dark table {
     background: #1e1e1e;
-    color: white;
+}
+
+body.dark td {
+    border-bottom: 1px solid #333;
+}
+
+body.dark th {
+    background: #1e1e1e;
+}
+
+body.dark table tr:hover {
+    background: #2a2a2a;
 }
 
 body.dark input,
@@ -152,17 +173,28 @@ body.dark button {
     color: white;
     border: 1px solid #444;
 }
-body.dark table tr:hover {
-    background: #2a2a2a;
-}
-body.dark th {
-    background: #1e1e1e;
+
+/* TABLE FIX */
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-body {
-    animation: fadeIn 0.4s ease-in;
+.books-table td,
+.books-table th {
+    padding: 12px;
 }
 
+.books-table tr:nth-child(even) {
+    background: #0f172a;
+}
+
+body.dark .books-table tr:nth-child(even) {
+    background: #1a1a1a;
+}
+
+/* ANIMATION */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -172,40 +204,4 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-table tr {
-    transition: 0.2s ease;
-}
-
-table tr:hover {
-    background: #f2f2f2;
-}
-button {
-    transition: 0.2s ease;
-    cursor: pointer;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-th {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 10;
-}
-.books-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-.books-table td, .books-table th {
-    padding: 12px;
-}
-.books-table tr:nth-child(even) {
-    background: #f9f9f9;
-}
-
-body.dark .books-table tr:nth-child(even) {
-    background: #1a1a1a;
 }
