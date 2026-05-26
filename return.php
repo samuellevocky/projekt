@@ -1,22 +1,44 @@
 <?php
 include("db.php");
 
-// vratenie knihy
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
 if (isset($_GET["loan_id"])) {
+    $loan_id = intval($_GET["loan_id"]);
+    $user_id = $_SESSION["user_id"];
+    $role = $_SESSION["role"];
 
-    $loan_id = $_GET["loan_id"];
+    // Admin môže vrátiť čokoľvek, bežný používateľ iba svoju vlastnú knihu
+    if ($role === "admin") {
+        $check_sql = "SELECT book_id FROM loans WHERE id = $loan_id AND return_date IS NULL";
+    } else {
+        $check_sql = "SELECT book_id FROM loans WHERE id = $loan_id AND user_id = $user_id AND return_date IS NULL";
+    }
 
-    // zisti book_id
-    $res = mysqli_query($conn, "SELECT book_id FROM loans WHERE id=$loan_id");
-    $row = mysqli_fetch_assoc($res);
-    $book_id = $row["book_id"];
+    $check_result = mysqli_query($conn, $check_sql);
 
-    // nastav return date
-    mysqli_query($conn, "UPDATE loans SET return_date = NOW() WHERE id=$loan_id");
+    if (mysqli_num_rows($check_result) > 0) {
+        $loan = mysqli_fetch_assoc($check_result);
+        $book_id = $loan["book_id"];
+        $return_date = date("Y-m-d");
 
-    // kniha je znovu dostupná
-    mysqli_query($conn, "UPDATE books SET available = 1 WHERE id=$book_id");
+        $update_loan = "UPDATE loans SET return_date = '$return_date' WHERE id = $loan_id";
+        $update_book = "UPDATE books SET available = 1 WHERE id = $book_id";
 
+        if (mysqli_query($conn, $update_loan) && mysqli_query($conn, $update_book)) {
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Chyba pri spracovaní vrátenia: " . mysqli_error($conn);
+        }
+    } else {
+        echo "Nemáš právo vrátiť túto knihu, alebo už bola vrátená.";
+    }
+} else {
     header("Location: index.php");
+    exit();
 }
 ?>

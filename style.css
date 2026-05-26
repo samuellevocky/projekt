@@ -205,3 +205,131 @@ body.dark .books-table tr:nth-child(even) {
         transform: translateY(0);
     }
 }
+
+
+
+
+
+
+
+/* 
+   MODERNÝ ŠTÝL PRE FORMULÁR POŽIČIAVANIA
+   */
+
+/* Hlavný box formulára - zladený s tvojimi .card */
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #1e293b; /* Rovnaká tmavá farba ako tvoje karty */
+    border-radius: 15px; /* Tvoj štýl zaoblenia */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* Hlbší, moderný tieň */
+    color: white;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Odkaz na návrat späť */
+.back-link {
+    color: #94a3b8;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #38bdf8; /* Tvoja svetlomodrá pri prejdení myšou */
+    text-decoration: underline;
+}
+
+/* Nadpis vo formulári */
+.form-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #38bdf8; /* Tvoja hlavná modrá farba */
+}
+
+/* Odsadenie skupín (label + input) */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #94a3b8; /* Jemnejšia sivá pre texty */
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Vstupné polia (Výber knihy a text) */
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #334155; /* Jemný okraj */
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: #0f172a; /* Tmavšie pozadie ako box, aby pole krásne vyniklo */
+    color: white;
+    transition: all 0.25s ease;
+}
+
+/* SVIETIACI EFEKT: Keď klikneš do poľa, rozsvieti sa tvojou modrou */
+.form-control:focus {
+    outline: none;
+    border-color: #0ea5e9; 
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+}
+
+/* Uzamknuté pole s menom (Disabled) */
+.form-control.disabled-input {
+    background: #1e293b; /* Splýva s pozadím boxu */
+    color: #64748b;
+    border-color: #334155;
+    cursor: not-allowed;
+    font-weight: bold;
+}
+
+/* Chybové a úspešné hlášky */
+.error-msg { color: #ef4444; font-weight: bold; margin-bottom: 15px; }
+.success-msg { color: #22c55e; font-weight: bold; margin-bottom: 15px; }
+
+/* 
+   FAREBNÉ ZLADENIE PRE DARK MODE 
+    */
+body.dark .form-container {
+    background: #1e1e1e; /* Zladené s tvojou dark tabuľkou */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+}
+
+body.dark .form-control {
+    background: #121212;
+    border-color: #333;
+}
+
+body.dark .form-control.disabled-input {
+    background: #1e1e1e;
+    color: #444;
+}
+
+
+.login-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+/* Prídavné štýly pre kontrolu akcií v tabuľke a pätičku loginu */
+.disabled-action {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.login-footer {
+    margin-top: 20px;
+    text-align: center;
+}

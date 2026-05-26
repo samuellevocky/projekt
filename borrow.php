@@ -1,19 +1,45 @@
 <?php
 include("db.php");
 
-$books = mysqli_query($conn, "SELECT * FROM books WHERE available = 1");
-$users = mysqli_query($conn, "SELECT * FROM users");
+// KONTROLA: Ak nie je prihlásený, pošli ho na login
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
+    exit();
+}
+
+$error = "";
+$success = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $book_id = intval($_POST["book_id"]);
+    $user_id = $_SESSION["user_id"]; 
 
-    $book_id = $_POST["book_id"];
-    $user_id = $_POST["user_id"];
+    // Kontrola, či je kniha stále voľná
+    $checkBook = mysqli_query($conn, "SELECT available FROM books WHERE id = $book_id");
+    $bookData = mysqli_fetch_assoc($checkBook);
 
-    mysqli_query($conn, "INSERT INTO loans (book_id, user_id, loan_date) VALUES ($book_id, $user_id, NOW())");
-    mysqli_query($conn, "UPDATE books SET available = 0 WHERE id = $book_id");
+    if ($bookData && $bookData['available'] == 1) {
+        $loan_date = date("Y-m-d");
 
-    header("Location: index.php");
+        // 1. Zápis do tabuľky loans
+        $sql_loan = "INSERT INTO loans (book_id, user_id, loan_date) VALUES ($book_id, $user_id, '$loan_date')";
+        
+        // 2. Aktualizácia statusu knihy na požičanú
+        $sql_update_book = "UPDATE books SET available = 0 WHERE id = $book_id";
+
+        if (mysqli_query($conn, $sql_loan) && mysqli_query($conn, $sql_update_book)) {
+            $success = "Kniha bola úspešne požičaná!";
+            header("Refresh: 2; url=index.php"); 
+        } else {
+            $error = "Chyba pri spracovaní pôžičky: " . mysqli_error($conn);
+        }
+    } else {
+        $error = "Táto kniha momentálne nie je dostupná.";
+    }
 }
+
+// Načítame iba tie knihy, ktoré sú voľné
+$books_result = mysqli_query($conn, "SELECT * FROM books WHERE available = 1");
 ?>
 
 <!DOCTYPE html>
@@ -24,35 +50,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<h1>Požičanie knihy</h1>
+<div class="form-container">
+    
+    <a href="index.php" class="back-link">← Späť na prehľad</a>
+    
+    <h1>Požičať knihu</h1>
 
-<form method="POST">
+    <?php if (!empty($error)): ?>
+        <p class="error-msg"><?= $error ?></p>
+    <?php endif; ?>
 
-    <label>Kniha:</label><br>
-    <select name="book_id" required>
-        <?php while($b = mysqli_fetch_assoc($books)): ?>
-            <option value="<?= $b['id'] ?>">
-                <?= $b['title'] ?>
-            </option>
-        <?php endwhile; ?>
-    </select>
+    <?php if (!empty($success)): ?>
+        <p class="success-msg"><?= $success ?></p>
+    <?php endif; ?>
 
-    <br><br>
+    <?php if (empty($success)): ?>
+        <?php if (mysqli_num_rows($books_result) > 0): ?>
+            <form method="POST">
+                
+                <div class="form-group">
+                    <label>Kniha sa zapíše na účet:</label>
+                    <input type="text" value="<?= $_SESSION["user_name"] ?>" disabled class="form-control disabled-input">
+                </div>
 
-    <label>Používateľ:</label><br>
-    <select name="user_id" required>
-        <?php while($u = mysqli_fetch_assoc($users)): ?>
-            <option value="<?= $u['id'] ?>">
-                <?= $u['name'] ?>
-            </option>
-        <?php endwhile; ?>
-    </select>
+                <div class="form-group">
+                    <label for="book_id">Vyber si voľnú knihu:</label>
+                    <select name="book_id" id="book_id" required class="form-control">
+                        <option value="">-- Vyber knihu --</option>
+                        <?php while($book = mysqli_fetch_assoc($books_result)): ?>
+                            <option value="<?= $book['id'] ?>"><?= $book['title'] ?> (<?= $book['author'] ?>)</option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-    <br><br>
+                <button type="submit" class="btn">Potvrdiť pôžičku</button>
+            </form>
+        <?php else: ?>
+            <p style="color: #64748b; font-style: italic; text-align: center; margin-top: 20px;">Momentálne sú všetky knihy v knižnici požičané.</p>
+        <?php endif; ?>
+    <?php endif; ?>
 
-    <button type="submit">Požičať</button>
-
-</form>
+</div>
 
 </body>
 </html>

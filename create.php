@@ -1,6 +1,9 @@
 <?php
 include("db.php");
-
+// Ak užívateľ nie je admin, zastavíme skript a vypíšeme chybu
+if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+    die("CHYBA: Nemáš administratívne práva na túto akciu!");
+}
 $error = ""; // Premenná na uloženie prípadnej chyby
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
