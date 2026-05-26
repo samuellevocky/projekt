@@ -13,7 +13,7 @@ $result = $conn->query($sql);
     <title>Skolska kniznica</title>
 </head>
 <body>
-
+<button id="themeToggle">Dark mode</button>
 <h1>Skolska kniznica</h1>
 <div class="dashboard">
 
@@ -124,3 +124,10 @@ $result = mysqli_query($conn, $sql);
 
 </body>
 </html>
+<script>
+const btn = document.getElementById("themeToggle");
+
+btn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+});
+</script>

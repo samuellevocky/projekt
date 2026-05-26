@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit knihy</title>
+    <title>Edit knihy</title>ň
     <link rel="stylesheet" href="style.css">
 </head>
 <body>

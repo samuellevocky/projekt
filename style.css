@@ -135,3 +135,20 @@ a {
 a:hover {
     color: #7dd3fc;
 }
+
+body.dark {
+    background: #121212;
+    color: #ffffff;
+}
+
+body.dark table {
+    background: #1e1e1e;
+    color: white;
+}
+
+body.dark input,
+body.dark button {
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+}
