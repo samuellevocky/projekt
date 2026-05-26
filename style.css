@@ -152,3 +152,60 @@ body.dark button {
     color: white;
     border: 1px solid #444;
 }
+body.dark table tr:hover {
+    background: #2a2a2a;
+}
+body.dark th {
+    background: #1e1e1e;
+}
+
+body {
+    animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+table tr {
+    transition: 0.2s ease;
+}
+
+table tr:hover {
+    background: #f2f2f2;
+}
+button {
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.books-table td, .books-table th {
+    padding: 12px;
+}
+.books-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+body.dark .books-table tr:nth-child(even) {
+    background: #1a1a1a;
+}

@@ -50,7 +50,7 @@ $result = $conn->query($sql);
 </div>
 <a href="borrow.php" class="btn">Požičať knihu</a>
 <a href="create.php" class="btn">+ Pridat knihu</a>
-<table border="1" cellpadding="10">
+<table class="books-table">
 
 <tr>
     <th>ID</th>
@@ -102,7 +102,7 @@ $sql = "SELECT loans.id, books.title, users.name, loans.loan_date
 $result = mysqli_query($conn, $sql);
 ?>
 
-<table border="1">
+<table class="books-table">
 <tr>
     <th>Kniha</th>
     <th>Používateľ</th>
@@ -121,9 +121,6 @@ $result = mysqli_query($conn, $sql);
 </tr>
 <?php endwhile; ?>
 </table>
-
-</body>
-</html>
 <script>
 const btn = document.getElementById("themeToggle");
 
@@ -131,3 +128,5 @@ btn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
 });
 </script>
+</body>
+</html>
