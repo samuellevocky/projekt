@@ -41,10 +41,17 @@ $result = $conn->query($sql);
     </div>
 
     <div class="card">
-        <h3>Požičané knihy</h3>
+        <h3><?= $_SESSION["role"] === "admin" ? "Požičané (celkovo)" : "Moje požičané knihy" ?></h3>
         <p>
             <?php
-            $countLoans = mysqli_query($conn, "SELECT COUNT(*) as total FROM loans WHERE return_date IS NULL");
+            if ($_SESSION["role"] === "admin") {
+                // Admin vidí úplne všetky aktuálne pôžičky
+                $countLoans = mysqli_query($conn, "SELECT COUNT(*) as total FROM loans WHERE return_date IS NULL");
+            } else {
+                // Bežný používateľ vidí len svoje aktívne pôžičky
+                $current_user_id = intval($_SESSION["user_id"]);
+                $countLoans = mysqli_query($conn, "SELECT COUNT(*) as total FROM loans WHERE return_date IS NULL AND user_id = $current_user_id");
+            }
             echo mysqli_fetch_assoc($countLoans)['total'];
             ?>
         </p>
