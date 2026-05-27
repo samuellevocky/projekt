@@ -124,7 +124,7 @@ $result = mysqli_query($conn, $sql);
 <tr>
     <td><?= $l["title"] ?></td>
     <td><?= $l["name"] ?></td>
-    <td><?= $l["loan_date"] ?></td>
+    <td><?= date("d.m.Y H:i", strtotime($l["loan_date"])) ?></td>
     <td>
         <?php if ($_SESSION["role"] === "admin" || $_SESSION["user_id"] == $l["user_id"]): ?>
             <a href="return.php?loan_id=<?= $l['id'] ?>">Vrátiť</a>

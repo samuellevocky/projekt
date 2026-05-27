@@ -1,6 +1,8 @@
 <?php
 include("db.php");
 
+date_default_timezone_set('Europe/Bratislava');
+
 // KONTROLA: Ak nie je prihlásený, pošli ho na login
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -19,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bookData = mysqli_fetch_assoc($checkBook);
 
     if ($bookData && $bookData['available'] == 1) {
-        $loan_date = date("Y-m-d");
+        // Zmena tu: Pridali sme H:i:s, aby to ukladalo aj presný čas pôžičky
+        $loan_date = date("Y-m-d H:i:s");
 
         // 1. Zápis do tabuľky loans
         $sql_loan = "INSERT INTO loans (book_id, user_id, loan_date) VALUES ($book_id, $user_id, '$loan_date')";
